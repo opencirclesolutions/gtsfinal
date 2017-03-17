@@ -1,7 +1,5 @@
 package com.ocs.gts.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ocs.dynamo.domain.model.EntityModel;
 import com.ocs.dynamo.service.UserDetailsService;
 import com.ocs.dynamo.ui.ServiceLocator;
@@ -17,9 +15,9 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @UIScope
 @SpringView(name = Views.PERSON_VIEW)
@@ -54,16 +52,9 @@ public class PersonView extends BaseView {
 			@Override
 			protected void postProcessButtonBar(Layout buttonBar) {
 				Button notificationButton = new Button("Show name");
-				notificationButton.addClickListener(new Button.ClickListener() {
-
-					private static final long serialVersionUID = -7103232498575835741L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-						Notification.show(getSelectedItem().getFullName(), Notification.Type.ERROR_MESSAGE);
-
-					}
-				});
+				notificationButton.addClickListener( e ->
+						Notification.show(getSelectedItem().getFullName(), Notification.Type.ERROR_MESSAGE)
+				);
 				buttonBar.addComponent(notificationButton);
 				registerButton(notificationButton);
 			}

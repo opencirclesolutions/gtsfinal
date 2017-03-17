@@ -1,10 +1,5 @@
 package com.ocs.gts.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ocs.dynamo.domain.model.AttributeModel;
 import com.ocs.dynamo.domain.model.EntityModel;
 import com.ocs.dynamo.ui.composite.form.DetailsEditTable;
@@ -19,18 +14,18 @@ import com.ocs.gts.domain.Person;
 import com.ocs.gts.service.OrganizationService;
 import com.ocs.gts.service.PersonService;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Like;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @UIScope
 @SpringView(name = Views.ORGANIZATION_VIEW)
@@ -71,17 +66,12 @@ public class OrganizationView extends LazyBaseView {
 			@Override
 			protected void postProcessButtonBar(Layout buttonBar) {
 				Button navigateButton = new Button("Details");
-				navigateButton.addClickListener(new ClickListener() {
-
-					private static final long serialVersionUID = -1604894924450296710L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
+				navigateButton.addClickListener( event -> {
 						GtsUI ui = (GtsUI) UI.getCurrent();
 						ui.setSelectedOrganization(getSelectedItem());
 						navigate(Views.ORGANIZATION_DETAIL_VIEW);
 					}
-				});
+				);
 
 				buttonBar.addComponent(navigateButton);
 				registerButton(navigateButton);
@@ -123,15 +113,7 @@ public class OrganizationView extends LazyBaseView {
 				Field<?> reputation = editForm.getField("reputation");
 				final Field<?> yearlyMortality = editForm.getField("yearlyMortalityRate");
 
-				reputation.addValueChangeListener(new ValueChangeListener() {
-
-					private static final long serialVersionUID = 6522564810904403860L;
-
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						yearlyMortality.setValue(null);
-					}
-				});
+				reputation.addValueChangeListener( event -> yearlyMortality.setValue(null));
 			}
 
 		};

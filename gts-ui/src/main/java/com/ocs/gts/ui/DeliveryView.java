@@ -28,11 +28,7 @@ public class DeliveryView extends BaseView {
 		EntityModel<Delivery> em = getModelFactory().getModel(Delivery.class);
 		FormOptions fo = new FormOptions();
 		TabularEditLayout<Integer, Delivery> layout = new TabularEditLayout<Integer, Delivery>(deliveryService, em, fo,
-		        null) {
-
-			private static final long serialVersionUID = -6355732460885333319L;
-
-		};
+		        null);
 
 		main.addComponent(layout);
 	}
