@@ -1,10 +1,5 @@
 package com.ocs.gts.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ocs.dynamo.domain.model.EntityModel;
 import com.ocs.dynamo.ui.composite.form.FormOptions;
 import com.ocs.dynamo.ui.composite.layout.LazyTabLayout;
@@ -25,6 +20,10 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @UIScope
 @SpringView(name = Views.ORGANIZATION_DETAIL_VIEW)
@@ -48,7 +47,7 @@ public class OrganizationDetailView extends BaseView {
 		final EntityModel<Organization> em = getModelFactory().getModel(Organization.class);
 
 		GtsUI ui = ((GtsUI) UI.getCurrent());
-		Organization org = (Organization) ui.getSelectedOrganization();
+		Organization org = ui.getSelectedOrganization();
 
 		LazyTabLayout<Integer, Organization> tabLayout = new LazyTabLayout<Integer, Organization>(org) {
 
@@ -69,8 +68,8 @@ public class OrganizationDetailView extends BaseView {
 				switch (index) {
 				case 0:
 					FormOptions fo = new FormOptions().setOpenInViewMode(true).setShowEditButton(true);
-					SimpleEditLayout<Integer, Organization> editLayout = new SimpleEditLayout<Integer, Organization>(
-					        getEntity(), organizationService, em, fo);
+					SimpleEditLayout<Integer, Organization> editLayout = new SimpleEditLayout<>(
+							getEntity(), organizationService, em, fo);
 					return editLayout;
 				case 1:
 					ServiceBasedDetailLayout<Integer, Person, Integer, Organization> layout = new ServiceBasedDetailLayout<Integer, Person, Integer, Organization>(
