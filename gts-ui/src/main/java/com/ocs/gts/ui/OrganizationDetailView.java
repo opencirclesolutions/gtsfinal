@@ -67,7 +67,7 @@ public class OrganizationDetailView extends BaseView {
 			protected Component initTab(int index) {
 				switch (index) {
 				case 0:
-					FormOptions fo = new FormOptions().setOpenInViewMode(true).setShowEditButton(true);
+					FormOptions fo = new FormOptions().setOpenInViewMode(true).setEditAllowed(true);
 					SimpleEditLayout<Integer, Organization> editLayout = new SimpleEditLayout<>(
 							getEntity(), organizationService, em, fo);
 					return editLayout;

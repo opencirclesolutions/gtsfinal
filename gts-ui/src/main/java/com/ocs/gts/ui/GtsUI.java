@@ -1,6 +1,7 @@
 package com.ocs.gts.ui;
 
 import java.security.Principal;
+import java.util.Locale;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ import com.ocs.gts.domain.Organization;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
@@ -94,6 +96,8 @@ public class GtsUI extends BaseUI {
 	@Override
 	protected void init(VaadinRequest request) {
 
+		VaadinSession.getCurrent().setLocale(new Locale("nl"));
+		
 		// handle a login
 		Principal principal = request.getUserPrincipal();
 
@@ -136,7 +140,6 @@ public class GtsUI extends BaseUI {
 		viewPanel.setContent(viewLayout);
 
 		initNavigation(viewProvider, viewPanel, Views.ORGANIZATION_VIEW, true);
-
 		getNavigator().setErrorView(new ErrorView());
 
 		// construct the menu

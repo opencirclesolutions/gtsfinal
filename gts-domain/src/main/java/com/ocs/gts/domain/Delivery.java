@@ -20,9 +20,11 @@ import com.ocs.dynamo.domain.AbstractEntity;
 import com.ocs.dynamo.domain.model.VisibilityType;
 import com.ocs.dynamo.domain.model.annotation.Attribute;
 import com.ocs.dynamo.domain.model.annotation.AttributeOrder;
+import com.ocs.dynamo.domain.model.annotation.Model;
 
 @Entity
 @Table(name = "delivery")
+@Model(displayNamePlural = "Deliveries")
 @AttributeOrder(attributeNames = { "date", "fromPerson", "toPerson", "gift", "remarks" })
 public class Delivery extends AbstractEntity<Integer> {
 

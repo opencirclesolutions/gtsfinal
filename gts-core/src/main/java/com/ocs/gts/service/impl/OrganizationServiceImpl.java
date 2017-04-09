@@ -21,4 +21,8 @@ public class OrganizationServiceImpl extends BaseServiceImpl<Integer, Organizati
 		return dao;
 	}
 
+	@Override
+	protected Organization findIdenticalEntity(Organization entity) {
+		return dao.fetchByUniqueProperty("name", entity.getName(), false);
+	}
 }

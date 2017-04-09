@@ -1741,7 +1741,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .light a {
 	cursor: pointer;
-	color: red;
+	color: #ff0000;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -2349,7 +2349,7 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 	color: inherit;
 	cursor: pointer;
-	color: red;
+	color: #ff0000;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -4984,7 +4984,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .light .v-grid-editor-save, .light .v-grid-editor-cancel {
 	cursor: pointer;
-	color: red;
+	color: #ff0000;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -8318,7 +8318,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .light .v-link {
 	cursor: pointer;
-	color: red;
+	color: #ff0000;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -11752,7 +11752,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .light .v-popupview {
 	cursor: pointer;
-	color: red;
+	color: #ff0000;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -13000,6 +13000,10 @@ div.v-layout.v-horizontal.v-widget {
 	display: none;
 }
 
+.light div.v-horizontallayout-nested .v-formlayout-first td.v-formlayout-captioncell {
+	display: none;
+}
+
 .light div.v-horizontallayout-nested .v-formlayout-first span.v-required-field-indicator {
 	display: none;
 }
@@ -13135,8 +13139,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .light .v-window-header {
-	color: black;
-	background-color: red;
+	color: white;
+	background-color: #ff0000;
 }
 
 .light div.v-caption-on-top div.numerical {
@@ -13145,10 +13149,6 @@ div.v-layout.v-horizontal.v-widget {
 
 .light tr.divider {
 	border-top: 1px solid black;
-}
-
-.light tr.weak_divider {
-	border-top: 1px dashed black;
 }
 
 .light div.divider .v-table-header table, .light div.divider .v-table-table {
@@ -13163,14 +13163,6 @@ div.v-layout.v-horizontal.v-widget {
 	border-top: 2px solid gray;
 }
 
-.light td.v-table-cell-content-parentRow {
-	font-weight: bold;
-}
-
-.light td.v-table-cell-content-warning {
-	background-color: red;
-}
-
 .light .v-textfield.numerical {
 	text-align: right;
 }
@@ -13181,10 +13173,6 @@ div.v-layout.v-horizontal.v-widget {
 
 .light div.v-caption-danger span.v-captiontext {
 	white-space: normal !important;
-}
-
-.light div.packageSizeCombo input.v-filterselect-input {
-	width: 120px !important;
 }
 
 .light div.v-verticallayout-searchDialogWrapper {

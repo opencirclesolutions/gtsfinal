@@ -14,19 +14,22 @@ import com.ocs.gts.domain.dao.PersonDao;
 @Repository("personDao")
 public class PersonDaoImpl extends BaseDaoImpl<Integer, Person> implements PersonDao {
 
-	@Override
-	public Class<Person> getEntityClass() {
-		return Person.class;
-	}
+    private QPerson qPerson = QPerson.person;
 
-	@Override
-	protected EntityPathBase<Person> getDslRoot() {
-		return QPerson.person;
-	}
+    @Override
+    public Class<Person> getEntityClass() {
+        return Person.class;
+    }
 
-	@Override
-	protected FetchJoinInformation[] getFetchJoins() {
-		return new FetchJoinInformation[] { new FetchJoinInformation("organization", JoinType.INNER),
-		        new FetchJoinInformation("luckyNumbers") };
-	}
+    @Override
+    protected EntityPathBase<Person> getDslRoot() {
+        return QPerson.person;
+    }
+
+    @Override
+    protected FetchJoinInformation[] getFetchJoins() {
+        return new FetchJoinInformation[] { new FetchJoinInformation("organization", JoinType.INNER),
+                new FetchJoinInformation("luckyNumbers"), new FetchJoinInformation("countryOfOrigin") };
+    }
+
 }
