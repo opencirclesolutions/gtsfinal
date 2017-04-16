@@ -38,7 +38,8 @@ public class OrganizationView extends LazyBaseView {
 
         EntityModel<Organization> em = getModelFactory().getModel(Organization.class);
         FormOptions fo = new FormOptions().setEditAllowed(true).setAttributeGroupMode(AttributeGroupMode.PANEL)
-                .setShowRemoveButton(true).setTableExportAllowed(true);
+                .setShowRemoveButton(true).setTableExportAllowed(true).setShowIterationButtons(true)
+                .setOpenInViewMode(true);
         layout = new SimpleSearchLayout<Integer, Organization>(organizationService, em, QueryType.ID_BASED, fo, null) {
 
             private static final long serialVersionUID = 7072140085846781415L;
@@ -98,6 +99,7 @@ public class OrganizationView extends LazyBaseView {
         Map<String, Filter> fieldFilters = new HashMap<>();
         // fieldFilters.put("members", new Like("firstName", "%a%", false));
         layout.setFieldFilters(fieldFilters);
+        layout.setFormTitleWidth(400);
 
         return layout;
     }

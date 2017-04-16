@@ -60,6 +60,8 @@ public class PersonView extends BaseView {
 			}
 
 		};
+		layout.setFormTitleWidth(200);
+		
 		main.addComponent(layout);
 	}
 }

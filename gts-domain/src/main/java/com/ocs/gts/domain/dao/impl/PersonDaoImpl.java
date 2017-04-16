@@ -23,7 +23,7 @@ public class PersonDaoImpl extends BaseDaoImpl<Integer, Person> implements Perso
 
     @Override
     protected EntityPathBase<Person> getDslRoot() {
-        return QPerson.person;
+        return qPerson;
     }
 
     @Override
