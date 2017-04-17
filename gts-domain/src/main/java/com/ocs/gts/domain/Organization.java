@@ -94,7 +94,7 @@ public class Organization extends AbstractEntity<Integer> {
     private Boolean governmentSponsored = Boolean.FALSE;
 
     @Column(name = "yearly_mortality_rate")
-    @Attribute(searchable = true, numberSelectMode = NumberSelectMode.SLIDER)
+    @Attribute(searchable = true)
     private BigDecimal yearlyMortalityRate;
 
     @Enumerated(EnumType.STRING)

@@ -1,7 +1,6 @@
 package com.ocs.gts.ui;
 
 import java.security.Principal;
-import java.util.Locale;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +16,11 @@ import com.ocs.dynamo.ui.component.BaseBanner;
 import com.ocs.dynamo.ui.component.DefaultVerticalLayout;
 import com.ocs.dynamo.ui.component.ErrorView;
 import com.ocs.dynamo.ui.menu.MenuService;
+import com.ocs.dynamo.ui.utils.VaadinUtils;
 import com.ocs.gts.domain.Organization;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
@@ -48,113 +47,115 @@ import com.vaadin.ui.VerticalLayout;
 @Widgetset(value = "com.ocs.dynamo.DynamoWidgetSet")
 public class GtsUI extends BaseUI {
 
-	@WebServlet(value = { "/*" }, asyncSupported = true)
-	public static class CustomServlet extends SpringVaadinServlet {
+    @WebServlet(value = { "/*" }, asyncSupported = true)
+    public static class CustomServlet extends SpringVaadinServlet {
 
-		public CustomServlet() {
-		}
-	}
+        public CustomServlet() {
+        }
+    }
 
-	@EnableVaadin
-	@Configuration()
-	public static class MyConfiguration {
-		// this is needed to kick off the Spring integration
-	}
+    @EnableVaadin
+    @Configuration()
+    public static class MyConfiguration {
+        // this is needed to kick off the Spring integration
+    }
 
-	@WebListener
-	public static class MyContextLoaderListener extends ContextLoaderListener {
-		// needed to get the Spring integration going
-	}
+    @WebListener
+    public static class MyContextLoaderListener extends ContextLoaderListener {
+        // needed to get the Spring integration going
+    }
 
-	private VerticalLayout main;
+    private VerticalLayout main;
 
-	private MenuBar menu;
+    private MenuBar menu;
 
-	@Autowired
-	private MenuService menuService;
+    @Autowired
+    private MenuService menuService;
 
-	@Autowired
-	private MessageService messageService;
+    @Autowired
+    private MessageService messageService;
 
-	/**
-	 * The version number - retrieved from pom file via application.properties
-	 */
-	@Autowired
-	@Qualifier("versionNumber")
-	private String versionNumber;
+    /**
+     * The version number - retrieved from pom file via application.properties
+     */
+    @Autowired
+    @Qualifier("versionNumber")
+    private String versionNumber;
 
-	private Panel viewPanel;
+    private Panel viewPanel;
 
-	@Autowired
-	private SpringViewProvider viewProvider;
+    @Autowired
+    private SpringViewProvider viewProvider;
 
-	private Organization selectedOrganization;
+    private Organization selectedOrganization;
 
-	/**
-	 * Main method - sets up the application
-	 */
-	@Override
-	protected void init(VaadinRequest request) {
+    /**
+     * Main method - sets up the application
+     */
+    @Override
+    protected void init(VaadinRequest request) {
 
-		VaadinSession.getCurrent().setLocale(new Locale("nl"));
-		
-		// handle a login
-		Principal principal = request.getUserPrincipal();
+        // store application-wide locale
+        VaadinUtils.storeLocale();
 
-		main = new VerticalLayout();
-		setContent(main);
+        // handle a login
+        Principal principal = request.getUserPrincipal();
 
-		BaseBanner banner = new BaseBanner("../../images/img-logo.png");
-		main.addComponent(banner);
+        main = new VerticalLayout();
+        setContent(main);
 
-		// the center block
-		HorizontalLayout hCenter = new HorizontalLayout();
-		banner.addComponent(hCenter);
+        BaseBanner banner = new BaseBanner("../../images/img-logo.png");
+        main.addComponent(banner);
 
-		VerticalLayout center = new DefaultVerticalLayout(true, false);
-		hCenter.addComponent(center);
-		hCenter.setPrimaryStyleName("");
-		hCenter.setComponentAlignment(center, Alignment.MIDDLE_LEFT);
-		hCenter.setSizeUndefined();
+        // the center block
+        HorizontalLayout hCenter = new HorizontalLayout();
+        banner.addComponent(hCenter);
 
-		// user name and logout button
-		VerticalLayout titleLayout = new DefaultVerticalLayout(false, true);
-		center.addComponent(titleLayout);
+        VerticalLayout center = new DefaultVerticalLayout(true, false);
+        hCenter.addComponent(center);
+        hCenter.setPrimaryStyleName("");
+        hCenter.setComponentAlignment(center, Alignment.MIDDLE_LEFT);
+        hCenter.setSizeUndefined();
 
-		// first line: application title
-		Label titleLabel = new Label("<b>" + messageService.getMessage("gts.application.name") + " v" + versionNumber
-		        + "</b>", ContentMode.HTML);
-		titleLayout.addComponent(titleLabel);
+        // user name and logout button
+        VerticalLayout titleLayout = new DefaultVerticalLayout(false, true);
+        center.addComponent(titleLayout);
 
-		String userName = principal.getName();
-		titleLayout.addComponent(new Label(messageService.getMessage("gts.logged.in.as", userName), ContentMode.HTML));
+        // first line: application title
+        Label titleLabel = new Label(
+                "<b>" + messageService.getMessage("gts.application.name") + " v" + versionNumber + "</b>",
+                ContentMode.HTML);
+        titleLayout.addComponent(titleLabel);
 
-		banner.setExpandRatio(banner.getImage(), 0.3f);
-		banner.setExpandRatio(hCenter, 2.0f);
-		banner.setComponentAlignment(hCenter, Alignment.MIDDLE_RIGHT);
+        String userName = principal.getName();
+        titleLayout.addComponent(new Label(messageService.getMessage("gts.logged.in.as", userName), ContentMode.HTML));
 
-		// set up navigation
-		VerticalLayout viewLayout = new VerticalLayout();
-		viewPanel = new Panel();
-		viewPanel.setImmediate(Boolean.TRUE);
-		viewPanel.setContent(viewLayout);
+        banner.setExpandRatio(banner.getImage(), 0.3f);
+        banner.setExpandRatio(hCenter, 2.0f);
+        banner.setComponentAlignment(hCenter, Alignment.MIDDLE_RIGHT);
 
-		initNavigation(viewProvider, viewPanel, Views.ORGANIZATION_VIEW, true);
-		getNavigator().setErrorView(new ErrorView());
+        // set up navigation
+        VerticalLayout viewLayout = new VerticalLayout();
+        viewPanel = new Panel();
+        viewPanel.setImmediate(Boolean.TRUE);
+        viewPanel.setContent(viewLayout);
 
-		// construct the menu
-		menu = menuService.constructMenu("gts.menu", getNavigator());
-		main.addComponent(menu);
+        initNavigation(viewProvider, viewPanel, Views.ORGANIZATION_VIEW, true);
+        getNavigator().setErrorView(new ErrorView());
 
-		main.addComponent(viewPanel);
-	}
+        // construct the menu
+        menu = menuService.constructMenu("gts.menu", getNavigator());
+        main.addComponent(menu);
 
-	public Organization getSelectedOrganization() {
-		return selectedOrganization;
-	}
+        main.addComponent(viewPanel);
+    }
 
-	public void setSelectedOrganization(Organization selectedOrganization) {
-		this.selectedOrganization = selectedOrganization;
-	}
+    public Organization getSelectedOrganization() {
+        return selectedOrganization;
+    }
+
+    public void setSelectedOrganization(Organization selectedOrganization) {
+        this.selectedOrganization = selectedOrganization;
+    }
 
 }
