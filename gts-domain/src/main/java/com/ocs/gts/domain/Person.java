@@ -1,8 +1,11 @@
 package com.ocs.gts.domain;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import com.ocs.dynamo.domain.AbstractEntity;
+import com.ocs.dynamo.domain.model.VisibilityType;
+import com.ocs.dynamo.domain.model.annotation.Attribute;
+import com.ocs.dynamo.domain.model.annotation.AttributeOrder;
+import com.ocs.dynamo.domain.model.annotation.Model;
+import com.ocs.dynamo.functional.domain.Country;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -20,13 +23,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.ocs.dynamo.domain.AbstractEntity;
-import com.ocs.dynamo.domain.model.VisibilityType;
-import com.ocs.dynamo.domain.model.annotation.Attribute;
-import com.ocs.dynamo.domain.model.annotation.AttributeOrder;
-import com.ocs.dynamo.domain.model.annotation.Model;
-import com.ocs.dynamo.functional.domain.Country;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "person")
@@ -60,7 +59,7 @@ public class Person extends AbstractEntity<Integer> {
     @NotNull
     @JoinColumn(name = "organization")
     @ManyToOne(fetch = FetchType.LAZY)
-    @Attribute(showInTable = VisibilityType.SHOW, complexEditable = true)
+    @Attribute(showInTable = VisibilityType.SHOW, complexEditable = true, directNavigation = true)
     private Organization organization;
 
     @ElementCollection

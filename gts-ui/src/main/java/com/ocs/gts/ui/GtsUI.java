@@ -1,15 +1,5 @@
 package com.ocs.gts.ui;
 
-import java.security.Principal;
-
-import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.ContextLoaderListener;
-
 import com.ocs.dynamo.service.MessageService;
 import com.ocs.dynamo.ui.BaseUI;
 import com.ocs.dynamo.ui.component.BaseBanner;
@@ -18,6 +8,7 @@ import com.ocs.dynamo.ui.component.ErrorView;
 import com.ocs.dynamo.ui.menu.MenuService;
 import com.ocs.dynamo.ui.utils.VaadinUtils;
 import com.ocs.gts.domain.Organization;
+import com.ocs.gts.service.OrganizationService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
@@ -33,6 +24,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.ContextLoaderListener;
+
+import javax.servlet.annotation.WebListener;
+import javax.servlet.annotation.WebServlet;
+import java.security.Principal;
 
 /**
  * Main class
@@ -74,6 +73,9 @@ public class GtsUI extends BaseUI {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private OrganizationService organizationService;
 
     /**
      * The version number - retrieved from pom file via application.properties
@@ -148,6 +150,15 @@ public class GtsUI extends BaseUI {
         main.addComponent(menu);
 
         main.addComponent(viewPanel);
+
+        //Allow direct navigation from other entities to Organization detail screen
+        addEntityOnViewMapping(Organization.class, o -> {
+            if (o instanceof Organization) {
+                Organization organization = organizationService.fetchById(((Organization)o).getId());
+                setSelectedOrganization(organization);
+                getNavigator().navigateTo(Views.ORGANIZATION_DETAIL_VIEW);
+            }
+        });
     }
 
     public Organization getSelectedOrganization() {
