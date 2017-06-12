@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+    <bean id="javaRoutes" class="com.ocs.gts.rest.Routes" />
+
+    <camel:camelContext>
+        <camel:routeBuilder ref="javaRoutes" />
+
+        <camel:rest path="/say">
+            <camel:get uri="/hello" produces="application/json">
+                <camel:to uri="direct:hello"/>
+            </camel:get>
+            <camel:get uri="/bye" consumes="application/json">
+                <camel:to uri="direct:bye"/>
+            </camel:get>
+            <camel:post uri="/bye">
+                <camel:to uri="mock:update"/>
+            </camel:post>
+        </camel:rest>
+        <camel:route>
+            <camel:from uri="direct:hello"/>
+            <camel:transform>
+                <camel:constant>Hello World</camel:constant>
+            </camel:transform>
+        </camel:route>
+        <camel:route>
+            <camel:from uri="direct:bye"/>
+            <camel:transform>
+                <camel:constant>Bye World</camel:constant>
+            </camel:transform>
+        </camel:route>
+    </camel:camelContext>
+</beans>

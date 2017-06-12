@@ -20,6 +20,30 @@
 		<param-value>${vaadin.production.mode}</param-value>
 	</context-param>
 
+	<servlet>
+		<display-name>Camel Http Transport Servlet</display-name>
+		<servlet-name>CamelServlet</servlet-name>
+		<servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CamelServlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ODataServlet</servlet-name>
+		<servlet-class>
+			org.springframework.web.context.support.HttpRequestHandlerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ODataServlet</servlet-name>
+		<url-pattern>/odata.svc/*</url-pattern>
+	</servlet-mapping>
+
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>

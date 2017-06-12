@@ -19,6 +19,10 @@
 			<groupId>org.dynamoframework</groupId>
 			<artifactId>dynamo-functional-domain</artifactId>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.dynamoframework</groupId>-->
+			<!--<artifactId>dynamo-odata</artifactId>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>com.ocs</groupId>
 			<artifactId>gts-domain</artifactId>
@@ -94,6 +98,47 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 		</dependency>
+
+        <!-- Camel -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-servlet</artifactId>
+			<version>2.19.0</version>
+		</dependency>
+
+
+		<!--<dependency>-->
+			<!--<groupId>org.apache.olingo</groupId>-->
+			<!--<artifactId>odata-server-api</artifactId>-->
+			<!--<version>4.3.0</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.apache.olingo</groupId>-->
+			<!--<artifactId>odata-server-core</artifactId>-->
+			<!--<version>4.3.0</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.apache.olingo</groupId>-->
+			<!--<artifactId>odata-commons-api</artifactId>-->
+			<!--<version>4.3.0</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.apache.olingo</groupId>-->
+			<!--<artifactId>odata-commons-core</artifactId>-->
+			<!--<version>4.3.0</version>-->
+		<!--</dependency>-->
+
+
 		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -169,6 +214,11 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-cdi</artifactId>
 			<version>1.0.0.rc1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dynamoframework</groupId>
+			<artifactId>dynamo-odata</artifactId>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
