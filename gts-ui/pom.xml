@@ -13,8 +13,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.dynamoframework</groupId>
-			<artifactId>dynamo-spring</artifactId>
+			<artifactId>dynamo-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.dynamoframework</groupId>
+			<artifactId>dynamo-impl</artifactId>
+		</dependency>	
 		<dependency>
 			<groupId>org.dynamoframework</groupId>
 			<artifactId>dynamo-functional-domain</artifactId>
@@ -152,10 +156,6 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addon</groupId>
-			<artifactId>confirmdialog</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>

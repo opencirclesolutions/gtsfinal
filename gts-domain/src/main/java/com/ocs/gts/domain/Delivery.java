@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.ocs.dynamo.domain.AbstractEntity;
+import com.ocs.dynamo.domain.model.EditableType;
 import com.ocs.dynamo.domain.model.VisibilityType;
 import com.ocs.dynamo.domain.model.annotation.Attribute;
 import com.ocs.dynamo.domain.model.annotation.AttributeOrder;
@@ -48,7 +49,7 @@ public class Delivery extends AbstractEntity<Integer> {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "from_person")
-	@Attribute(showInTable = VisibilityType.SHOW, complexEditable = true)
+	@Attribute(showInTable = VisibilityType.SHOW, complexEditable = true, editable = EditableType.CREATE_ONLY)
 	private Person fromPerson;
 
 	@NotNull

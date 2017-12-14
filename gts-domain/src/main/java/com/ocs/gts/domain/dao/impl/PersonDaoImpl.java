@@ -1,12 +1,11 @@
 package com.ocs.gts.domain.dao.impl;
 
-import javax.persistence.criteria.JoinType;
-
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.types.path.EntityPathBase;
+import com.ocs.dynamo.dao.FetchJoinInformation;
+import com.ocs.dynamo.dao.JoinType;
 import com.ocs.dynamo.dao.impl.BaseDaoImpl;
-import com.ocs.dynamo.dao.query.FetchJoinInformation;
 import com.ocs.gts.domain.Person;
 import com.ocs.gts.domain.QPerson;
 import com.ocs.gts.domain.dao.PersonDao;

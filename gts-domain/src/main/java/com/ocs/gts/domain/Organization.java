@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
 import com.ocs.dynamo.domain.AbstractEntity;
 import com.ocs.dynamo.domain.model.AttributeSelectMode;
 import com.ocs.dynamo.domain.model.CascadeMode;
+import com.ocs.dynamo.domain.model.EditableType;
 import com.ocs.dynamo.domain.model.NumberSelectMode;
 import com.ocs.dynamo.domain.model.VisibilityType;
 import com.ocs.dynamo.domain.model.annotation.Attribute;
@@ -46,174 +47,174 @@ import com.ocs.gts.domain.type.Reputation;
 @Model(displayProperty = "name")
 @Table(name = "organization")
 @AttributeGroups(attributeGroups = {
-        @AttributeGroup(messageKey = "organization.first", attributeNames = { "name", "address", "headQuarters",
-                "region", "countryOfOrigin" }),
-        @AttributeGroup(messageKey = "organization.second", attributeNames = { "reputation" }) })
+		@AttributeGroup(messageKey = "organization.first", attributeNames = { "name", "address", "headQuarters",
+				"region", "countryOfOrigin" }),
+		@AttributeGroup(messageKey = "organization.second", attributeNames = { "reputation" }) })
 @AttributeOrder(attributeNames = { "name", "headQuarters", "address", "region", "countryOfOrigin", "reputation" })
 public class Organization extends AbstractEntity<Integer> {
 
-    private static final long serialVersionUID = -3436199710873943375L;
+	private static final long serialVersionUID = -3436199710873943375L;
 
-    @Id
-    @SequenceGenerator(name = "organization_id_gen", sequenceName = "organization_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_id_gen")
-    private Integer id;
+	@Id
+	@SequenceGenerator(name = "organization_id_gen", sequenceName = "organization_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_id_gen")
+	private Integer id;
 
-    @NotNull
-    @Size(max = 255)
-    @Attribute(searchable = true, main = true, maxLengthInTable = 10, multipleSearch = true, searchSelectMode = AttributeSelectMode.FANCY_LIST)
-    private String name;
+	@NotNull
+	@Size(max = 255)
+	@Attribute(searchable = true, main = true, multipleSearch = true, searchSelectMode = AttributeSelectMode.FANCY_LIST, editable = EditableType.CREATE_ONLY)
+	private String name;
 
-    @NotNull
-    @Size(max = 255)
-    @Attribute(searchable = true, displayName = "Headquarters", groupTogetherWith = { "address", "memberCount" })
-    private String headQuarters;
+	@NotNull
+	@Size(max = 255)
+	@Attribute(searchable = true, displayName = "Headquarters", groupTogetherWith = { "address", "memberCount" })
+	private String headQuarters;
 
-    @NotNull
-    @Size(max = 255)
-    @Attribute(searchable = true)
-    private String address;
+	@NotNull
+	@Size(max = 255)
+	@Attribute(searchable = true)
+	private String address;
 
-    @Transient
-    @Attribute(searchable = true, cascade = @Cascade(cascadeTo = "countryOfOrigin", filterPath = "parent"), visible = VisibilityType.HIDE, replacementSearchPath = "countryOfOrigin.parent")
-    private Region region;
+	@Transient
+	@Attribute(searchable = true, cascade = @Cascade(cascadeTo = "countryOfOrigin", filterPath = "parent"), visible = VisibilityType.HIDE, replacementSearchPath = "countryOfOrigin.parent")
+	private Region region;
 
-    @NotNull
-    @JoinColumn(name = "country_of_origin")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Attribute(showInTable = VisibilityType.SHOW, searchable = true, complexEditable = true, cascade = @Cascade(cascadeTo = "members", filterPath = "countryOfOrigin", mode = CascadeMode.BOTH))
-    private Country countryOfOrigin;
+	@NotNull
+	@JoinColumn(name = "country_of_origin")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Attribute(showInTable = VisibilityType.SHOW, searchable = true, complexEditable = true, cascade = @Cascade(cascadeTo = "members", filterPath = "countryOfOrigin", mode = CascadeMode.BOTH))
+	private Country countryOfOrigin;
 
-    @NotNull
-    @Column(name = "member_count")
-    @Attribute(searchable = true, numberSelectMode = NumberSelectMode.SLIDER, minValue = 50, maxValue = 1000)
-    private Integer memberCount;
+	@NotNull
+	@Column(name = "member_count")
+	@Attribute(searchable = true, numberSelectMode = NumberSelectMode.SLIDER, minValue = 50, maxValue = 1000)
+	private Integer memberCount;
 
-    @Column(name = "government_sponsored")
-    @Attribute(searchable = true)
-    private Boolean governmentSponsored = Boolean.FALSE;
+	@Column(name = "government_sponsored")
+	@Attribute(searchable = true)
+	private Boolean governmentSponsored = Boolean.FALSE;
 
-    @Column(name = "yearly_mortality_rate")
-    @Attribute(searchable = true)
-    private BigDecimal yearlyMortalityRate;
+	@Column(name = "yearly_mortality_rate")
+	@Attribute(searchable = true)
+	private BigDecimal yearlyMortalityRate;
 
-    @Enumerated(EnumType.STRING)
-    @Attribute(searchable = true)
-    private Reputation reputation;
+	@Enumerated(EnumType.STRING)
+	@Attribute(searchable = true)
+	private Reputation reputation;
 
-    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
-    @Attribute(searchable = true, complexEditable = true)
-    private Set<Person> members = new HashSet<>();
+	@OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+	@Attribute(searchable = true, complexEditable = true)
+	private Set<Person> members = new HashSet<>();
 
-    @Attribute(url = true)
-    private String url;
+	@Attribute(url = true, editable = EditableType.CREATE_ONLY)
+	private String url;
 
-    public void addMember(Person person) {
-        this.members.add(person);
-        person.setOrganization(this);
-    }
+	public void addMember(Person person) {
+		this.members.add(person);
+		person.setOrganization(this);
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public Country getCountryOfOrigin() {
-        return countryOfOrigin;
-    }
+	public Country getCountryOfOrigin() {
+		return countryOfOrigin;
+	}
 
-    public Boolean getGovernmentSponsored() {
-        return governmentSponsored;
-    }
+	public Boolean getGovernmentSponsored() {
+		return governmentSponsored;
+	}
 
-    public String getHeadQuarters() {
-        return headQuarters;
-    }
+	public String getHeadQuarters() {
+		return headQuarters;
+	}
 
-    @Override
-    public Integer getId() {
-        return id;
-    }
+	@Override
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getMemberCount() {
-        return memberCount;
-    }
+	public Integer getMemberCount() {
+		return memberCount;
+	}
 
-    public Set<Person> getMembers() {
-        return members;
-    }
+	public Set<Person> getMembers() {
+		return members;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Region getRegion() {
-        return region;
-    }
+	public Region getRegion() {
+		return region;
+	}
 
-    public Reputation getReputation() {
-        return reputation;
-    }
+	public Reputation getReputation() {
+		return reputation;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public BigDecimal getYearlyMortalityRate() {
-        return yearlyMortalityRate;
-    }
+	public BigDecimal getYearlyMortalityRate() {
+		return yearlyMortalityRate;
+	}
 
-    public void removeMember(Person person) {
-        this.members.remove(person);
-        person.setOrganization(null);
-    }
+	public void removeMember(Person person) {
+		this.members.remove(person);
+		person.setOrganization(null);
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public void setCountryOfOrigin(Country countryOfOrigin) {
-        this.countryOfOrigin = countryOfOrigin;
-    }
+	public void setCountryOfOrigin(Country countryOfOrigin) {
+		this.countryOfOrigin = countryOfOrigin;
+	}
 
-    public void setGovernmentSponsored(Boolean governmentSponsored) {
-        this.governmentSponsored = governmentSponsored;
-    }
+	public void setGovernmentSponsored(Boolean governmentSponsored) {
+		this.governmentSponsored = governmentSponsored;
+	}
 
-    public void setHeadQuarters(String headQuarters) {
-        this.headQuarters = headQuarters;
-    }
+	public void setHeadQuarters(String headQuarters) {
+		this.headQuarters = headQuarters;
+	}
 
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setMemberCount(Integer memberCount) {
-        this.memberCount = memberCount;
-    }
+	public void setMemberCount(Integer memberCount) {
+		this.memberCount = memberCount;
+	}
 
-    public void setMembers(Set<Person> members) {
-        this.members = members;
-    }
+	public void setMembers(Set<Person> members) {
+		this.members = members;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setRegion(Region region) {
-        this.region = region;
-    }
+	public void setRegion(Region region) {
+		this.region = region;
+	}
 
-    public void setReputation(Reputation reputation) {
-        this.reputation = reputation;
-    }
+	public void setReputation(Reputation reputation) {
+		this.reputation = reputation;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public void setYearlyMortalityRate(BigDecimal yearlyMortalityRate) {
-        this.yearlyMortalityRate = yearlyMortalityRate;
-    }
+	public void setYearlyMortalityRate(BigDecimal yearlyMortalityRate) {
+		this.yearlyMortalityRate = yearlyMortalityRate;
+	}
 
 }

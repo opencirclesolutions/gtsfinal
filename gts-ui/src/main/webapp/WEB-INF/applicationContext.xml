@@ -31,6 +31,7 @@
 			</bean>
 		</property>
 		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources" value="META-INF/orm.xml"/>
 	</bean>
 
 	<jee:jndi-lookup id="dataSource" jndi-name="${gts.datasource.name}"></jee:jndi-lookup>
@@ -52,7 +53,7 @@
 				<constructor-arg index="2" value="parent" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg index="1" value="code" />
+		<constructor-arg index="1" value="name,code" />
 	</bean>
 	
 	<bean id="regionService" class="com.ocs.dynamo.service.impl.DefaultServiceImpl">

@@ -1,10 +1,16 @@
 package com.ocs.gts.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ocs.dynamo.domain.model.EntityModel;
-import com.ocs.dynamo.ui.composite.form.FormOptions;
+import com.ocs.dynamo.ui.composite.layout.FormOptions;
 import com.ocs.dynamo.ui.composite.layout.LazyTabLayout;
 import com.ocs.dynamo.ui.composite.layout.ServiceBasedDetailLayout;
 import com.ocs.dynamo.ui.composite.layout.SimpleEditLayout;
+import com.ocs.dynamo.ui.container.QueryType;
 import com.ocs.dynamo.ui.view.BaseView;
 import com.ocs.gts.domain.Delivery;
 import com.ocs.gts.domain.Organization;
@@ -20,10 +26,6 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @UIScope
 @SpringView(name = Views.ORGANIZATION_DETAIL_VIEW)
@@ -68,13 +70,14 @@ public class OrganizationDetailView extends BaseView {
 				switch (index) {
 				case 0:
 					FormOptions fo = new FormOptions().setOpenInViewMode(true).setEditAllowed(true);
-					SimpleEditLayout<Integer, Organization> editLayout = new SimpleEditLayout<>(
-							getEntity(), organizationService, em, fo);
+					SimpleEditLayout<Integer, Organization> editLayout = new SimpleEditLayout<>(getEntity(),
+							organizationService, em, fo);
 					return editLayout;
 				case 1:
 					ServiceBasedDetailLayout<Integer, Person, Integer, Organization> layout = new ServiceBasedDetailLayout<Integer, Person, Integer, Organization>(
-					        personService, getEntity(), organizationService, getEntityModelFactory().getModel(
-					                "OrganizationPerson", Person.class), new FormOptions(), null) {
+							personService, getEntity(), organizationService,
+							getEntityModelFactory().getModel("OrganizationPerson", Person.class), QueryType.ID_BASED,
+							new FormOptions(), null) {
 
 						private static final long serialVersionUID = -2898632662487449765L;
 
@@ -91,13 +94,15 @@ public class OrganizationDetailView extends BaseView {
 					return layout;
 				case 2:
 					ServiceBasedDetailLayout<Integer, Delivery, Integer, Organization> deliveryLayout = new ServiceBasedDetailLayout<Integer, Delivery, Integer, Organization>(
-					        deliveryService, getEntity(), organizationService, getEntityModelFactory().getModel(
-					                Delivery.class), new FormOptions(), null) {
+							deliveryService, getEntity(), organizationService,
+							getEntityModelFactory().getModel(Delivery.class), QueryType.ID_BASED, new FormOptions(),
+							null) {
 
 						private static final long serialVersionUID = -2898632662487449765L;
 
 						protected com.vaadin.data.Container.Filter constructFilter() {
-							return new com.vaadin.data.util.filter.Compare.Equal("fromPerson.organization", getEntity());
+							return new com.vaadin.data.util.filter.Compare.Equal("fromPerson.organization",
+									getEntity());
 						}
 					};
 
