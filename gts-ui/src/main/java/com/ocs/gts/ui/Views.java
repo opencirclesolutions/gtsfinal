@@ -7,6 +7,8 @@ public final class Views {
 
 	public static final String ORGANIZATION_VIEW = "organizationView";
 
+	public static final String ORGANIZATION_FLEX_VIEW = "organizationFlexView";
+	
 	public static final String ORGANIZATION_DETAIL_VIEW = "organisationDetailView";
 
 	public static final String PERSON_VIEW = "personView";

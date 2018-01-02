@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -95,14 +96,14 @@ public class Organization extends AbstractEntity<Integer> {
 	private Boolean governmentSponsored = Boolean.FALSE;
 
 	@Column(name = "yearly_mortality_rate")
-	@Attribute(searchable = true)
+	@Attribute(searchable = true, percentage = true)
 	private BigDecimal yearlyMortalityRate;
 
 	@Enumerated(EnumType.STRING)
 	@Attribute(searchable = true)
 	private Reputation reputation;
 
-	@OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "organization", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@Attribute(searchable = true, complexEditable = true)
 	private Set<Person> members = new HashSet<>();
 

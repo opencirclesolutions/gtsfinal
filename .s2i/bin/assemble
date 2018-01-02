@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#
+# Update the settings.xml file with the authentication settings from the environment variables
+#
+
+# Exit when an error occurs in the original script
+set -e
+
+echo "Optional mirror credentials settings"
+if [ -f /opt/s2i/destination/src/configuration/settings.xml ]; then
+  echo "settings.xml file found"
+
+  if [ -n "$MAVEN_MIRROR_USERNAME" -a -n "$MAVEN_MIRROR_PASSWORD" ]; then
+    echo "set mirror credentials"
+    xml="    <server>\
+      <id>mirror.default</id>\
+      <username>$MAVEN_MIRROR_USERNAME</username>\
+      <password>$MAVEN_MIRROR_PASSWORD</password>\
+    </server>"
+    sed -i "s|<!-- ### configured server authentication ### -->|$xml|" /opt/s2i/destination/src/configuration/settings.xml
+  fi
+
+fi
+
+/usr/libexec/s2i/assemble
+

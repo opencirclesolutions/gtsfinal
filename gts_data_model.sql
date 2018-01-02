@@ -342,6 +342,7 @@ CREATE TABLE person
 	version              INTEGER NULL,
 	organization         INTEGER NOT NULL,
 	born                 DATE NULL,
+	country_of_origin    INTEGER NULL, 	
 	died                 DATE NULL,
 	PRIMARY KEY (id)
 );

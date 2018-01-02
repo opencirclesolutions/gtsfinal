@@ -5,14 +5,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.ocs.dynamo.domain.model.EntityModel;
-import com.ocs.dynamo.functional.domain.Country;
-import com.ocs.dynamo.functional.ui.MultiDomainEditLayout;
-import com.ocs.dynamo.ui.component.DefaultVerticalLayout;
 import com.ocs.dynamo.ui.composite.dialog.EntityPopupDialog;
-import com.ocs.dynamo.ui.composite.layout.FlexibleSearchLayout;
 import com.ocs.dynamo.ui.composite.layout.FormOptions;
+import com.ocs.dynamo.ui.composite.layout.SimpleSearchLayout;
 import com.ocs.dynamo.ui.composite.type.AttributeGroupMode;
 import com.ocs.dynamo.ui.container.QueryType;
 import com.ocs.dynamo.ui.view.LazyBaseView;
@@ -25,7 +21,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 @UIScope
 @SpringView(name = Views.ORGANIZATION_VIEW)
@@ -36,7 +31,7 @@ public class OrganizationView extends LazyBaseView {
 
 	private static final long serialVersionUID = 3310122000037867336L;
 
-	private FlexibleSearchLayout<Integer, Organization> layout;
+	private SimpleSearchLayout<Integer, Organization> layout;
 
 	@Override
 	public Component build() {
@@ -45,15 +40,9 @@ public class OrganizationView extends LazyBaseView {
 		FormOptions fo = new FormOptions().setEditAllowed(true).setAttributeGroupMode(AttributeGroupMode.PANEL)
 				.setShowRemoveButton(true).setTableExportAllowed(true).setShowIterationButtons(true)
 				.setOpenInViewMode(true);
-		layout = new FlexibleSearchLayout<Integer, Organization>(organizationService, em, QueryType.ID_BASED, fo,
-				null) {
+		layout = new SimpleSearchLayout<Integer, Organization>(organizationService, em, QueryType.ID_BASED, fo, null) {
 
 			private static final long serialVersionUID = 7072140085846781415L;
-
-			@Override
-			protected boolean isEditAllowed() {
-				return true;
-			}
 
 			@Override
 			protected String[] getParentGroupHeaders() {
@@ -105,6 +94,7 @@ public class OrganizationView extends LazyBaseView {
 		Map<String, Filter> fieldFilters = new HashMap<>();
 		layout.setFieldFilters(fieldFilters);
 		layout.setFormTitleWidth(400);
+		layout.setNrOfColumns(2);
 		return layout;
 	}
 
