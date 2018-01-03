@@ -1,4 +1,4 @@
-﻿CREATE TABLE domain
+CREATE TABLE domain
 (
 	id                   SERIAL NOT NULL,
 	code                 VARCHAR(3) NULL,
@@ -491,4 +491,16 @@ ADD CONSTRAINT fk_delivery_person2 FOREIGN KEY (to_person) REFERENCES person(id)
 
 ALTER TABLE delivery
 ADD CONSTRAINT fk_delivery_person3 FOREIGN KEY (gift) REFERENCES gift(id) ON DELETE CASCADE;
+
+CREATE TABLE person_lucky_numbers
+(
+  id serial NOT NULL,
+  person_id integer,
+  lucky_number integer,
+  primary key(id)
+);
+
+ALTER TABLE person_lucky_numbers ADD CONSTRAINT fk_person_lucky_numbers_person FOREIGN KEY (person_id)
+      REFERENCES person(id) ON DELETE CASCADE;
+
 
